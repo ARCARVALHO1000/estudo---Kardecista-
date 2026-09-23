@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#1f4b7a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Estudo Kardecista" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <title>Estudo Kardecista — v1.0</title>
+  <style>
+    *{box-sizing:border-box}
+    :root{
+      --bg:#f5f7fa;--card:#fff;--text:#172033;--muted:#667085;--line:#d9e0e8;
+      --blue:#1f4b7a;--blue2:#eaf1f8;--green:#176b5b;--green2:#e9f6f2;
+      --gold:#8a6400;--gold2:#fff6d8;--purple:#6941c6;--purple2:#f2ecff;--danger:#a23535;
+    }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+    .wrap{max-width:980px;margin:auto;padding:18px}
+    h1{margin:0 0 4px;font-size:31px;color:#183b60}
+    h2{font-size:21px;margin:0 0 10px}
+    h3{font-size:17px;margin:0 0 7px}
+    p{line-height:1.55}
+    .subtitle{color:var(--muted);margin:0 0 16px}
+    .panel,.card,details{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:12px}
+    .search-grid{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:end}
+    label{font-weight:800;font-size:14px;display:block;margin-bottom:5px}
+    input,textarea{width:100%;border:1px solid #c6d0dd;border-radius:10px;padding:11px;font-size:16px;background:#fff;color:var(--text)}
+    input{min-height:48px}
+    textarea{min-height:135px;resize:vertical;line-height:1.5}
+    input:focus,textarea:focus{outline:3px solid rgba(31,75,122,.14);border-color:var(--blue)}
+    button{min-height:46px;border:0;border-radius:10px;padding:0 15px;font-size:15px;font-weight:800;cursor:pointer}
+    button:disabled{opacity:.55}
+    .primary{background:var(--blue);color:#fff}.secondary{background:#e8edf3;color:#172033}
+    .save{background:var(--green);color:#fff}.fav{background:var(--gold2);color:#6f5300}
+    .purple{background:var(--purple);color:#fff}.danger{background:#fdecec;color:var(--danger)}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .status{margin-top:10px;padding:11px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);min-height:45px;line-height:1.45}
+    .small{font-size:13px;color:var(--muted);line-height:1.45}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:900;color:#49647d}
+    .question-number{font-size:30px;font-weight:900;color:var(--blue);margin:2px 0 2px}
+    .meta{color:var(--muted);font-size:14px;line-height:1.45}
+    .quote{padding:13px;border-left:4px solid var(--blue);background:#f8fbfe;border-radius:8px;line-height:1.6;margin:10px 0}
+    .answer{font-size:20px;font-weight:850;color:#143d65;background:var(--blue2);padding:14px;border-radius:11px;margin:10px 0}
+    .section-title{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .tag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800;background:#edf2f7;color:#455468;margin:2px 4px 2px 0}
+    .sourcebox{background:#f6f8fb;border:1px dashed #b8c4d2;border-radius:10px;padding:10px;margin-top:10px}
+    .kardec{border-left:5px solid var(--blue)}
+    .related{border-left:5px solid var(--green)}
+    .complement{border-left:5px solid var(--purple)}
+    .reflection{border-left:5px solid #a87900}
+    .warning{background:#fff8e8;border:1px solid #ead7a3;border-radius:10px;padding:10px;color:#604c13}
+    .hidden{display:none!important}
+    .list{display:grid;gap:8px}
+    .study-item{border:1px solid #e1e6ed;border-radius:10px;padding:10px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+    .study-item strong{display:block}
+    .study-meta{font-size:12px;color:var(--muted);margin-top:2px}
+    summary{cursor:pointer;font-weight:850}
+    .progress-wrap{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+    .progress{height:9px;background:#e4e9ef;border-radius:999px;overflow:hidden}
+    .bar{height:100%;width:0;background:var(--green);transition:width .2s}
+    .empty{text-align:center;color:var(--muted);padding:22px 10px}
+    @media(max-width:680px){
+      .wrap{padding:12px}h1{font-size:27px}.search-grid{grid-template-columns:1fr}
+      .search-grid button{width:100%}.study-item{grid-template-columns:1fr}
+      button{flex:1;min-width:130px}
+    }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <h1>📘 Estudo Kardecista</h1>
+  <p class="subtitle">O Livro dos Espíritos como base, com relações em Kardec e espaço separado para literatura espírita complementar.</p>
+
+  <section class="panel">
+    <div class="search-grid">
+      <div>
+        <label for="search">Pergunta, número ou tema</label>
+        <input id="search" inputmode="search" placeholder="Ex.: 919, autoconhecimento, consciência..." autocomplete="off" />
+      </div>
+      <button id="searchBtn" class="primary">🔎 PESQUISAR</button>
+    </div>
+    <div class="row">
+      <button id="show919" class="secondary">Abrir questão 919</button>
+      <button id="myStudyBtn" class="save">📚 MEU ESTUDO</button>
+      <button id="installBtn" class="secondary">📲 ÍCONE NO TABLET</button>
+    </div>
+    <div id="status" class="status">Pronto. Digite um número ou tema. Nesta primeira versão, a questão 919 é o protótipo completo.</div>
+  </section>
+
+  <section id="result" class="hidden">
+    <article class="card kardec">
+      <div class="eyebrow">O Livro dos Espíritos</div>
+      <div class="question-number" id="qNumber">Questão 919</div>
+      <div class="meta" id="qMeta">Parte III — Das Leis Morais · Capítulo XII — Da Perfeição Moral · Conhecimento de si mesmo</div>
+
+      <h2 style="margin-top:16px">Pergunta</h2>
+      <div class="quote" id="qQuestion">Qual o meio prático mais eficaz que tem o homem de se melhorar nesta vida e de resistir à atração do mal?</div>
+
+      <h2>Resposta</h2>
+      <div class="answer" id="qAnswer">“Conhece-te a ti mesmo.”</div>
+
+      <h3>Desenvolvimento da questão 919-a</h3>
+      <p id="qDevelopment">A orientação apresentada é fazer um exame regular da própria consciência: rever as ações do dia, reconhecer deveres não cumpridos, perceber quando se causou prejuízo a alguém e identificar o que precisa ser corrigido em si mesmo. O objetivo não é a culpa, mas o conhecimento de si e o aperfeiçoamento moral.</p>
+
+      <div class="sourcebox">
+        <strong>🔎 Fonte</strong>
+        <div class="small" id="qSource">Allan Kardec, O Livro dos Espíritos, questão 919 e 919-a. Conteúdo apresentado com a Codificação em primeiro plano.</div>
+      </div>
+
+      <div class="row">
+        <button id="favoriteBtn" class="fav">☆ FAVORITAR</button>
+        <button id="studiedBtn" class="save">✅ MARCAR COMO ESTUDADA</button>
+      </div>
+    </article>
+
+    <article class="card related">
+      <div class="section-title"><h2>📚 Kardec — Obras relacionadas</h2></div>
+      <h3>O Evangelho segundo o Espiritismo — Capítulo XVII, item 3, “O homem de bem”</h3>
+      <p>Relação de estudo: o aperfeiçoamento moral exige que a pessoa examine a própria consciência, considere o bem que poderia ter feito e observe se alguém pode ter motivo de queixa contra ela.</p>
+      <div class="sourcebox">
+        <strong>Ligação com a questão 919</strong>
+        <div class="small">Autoconhecimento → exame da consciência → reconhecimento das imperfeições → esforço consciente de transformação moral.</div>
+      </div>
+    </article>
+
+    <article class="card complement">
+      <div class="section-title"><h2>📖 Literatura espírita complementar</h2></div>
+      <div class="warning"><strong>Área separada da Codificação.</strong> Autores espirituais, médiuns e obras posteriores serão identificados claramente, sem apresentar comentários posteriores como se fossem texto de Kardec.</div>
+      <p><strong>Joanna de Ângelis</strong> — área preparada para referências verificadas sobre autoconhecimento, consciência e transformação moral.</p>
+      <p><strong>Emmanuel</strong> — área preparada para referências verificadas relacionadas ao tema.</p>
+      <p><strong>André Luiz</strong> — área preparada para referências verificadas relacionadas ao tema.</p>
+      <p class="small">Nesta versão inicial não incluí referências específicas dessas obras sem conferência bibliográfica. A próxima etapa será montar essa base de forma controlada.</p>
+    </article>
+
+    <article class="card reflection">
+      <div class="section-title"><h2>💭 Para refletir</h2></div>
+      <p><strong>No final do dia, quais atitudes minhas eu repetiria e quais procuraria modificar?</strong></p>
+      <label for="notes">Minha reflexão</label>
+      <textarea id="notes" placeholder="Escreva aqui suas observações pessoais..."></textarea>
+      <div class="row">
+        <button id="saveNotes" class="save">💾 SALVAR REFLEXÃO</button>
+        <button id="clearNotes" class="secondary">Limpar texto</button>
+      </div>
+    </article>
+  </section>
+
+  <section id="notFound" class="panel hidden">
+    <h2>Questão ainda não cadastrada</h2>
+    <p>O aplicativo já está preparado para receber todas as questões de <em>O Livro dos Espíritos</em>, mas esta primeira versão contém apenas a questão 919 como modelo completo.</p>
+    <p class="small">Próxima etapa: ampliar a base de questões e criar os vínculos com as demais obras de Kardec.</p>
+  </section>
+
+  <details id="myStudyPanel">
+    <summary>📚 Meu estudo</summary>
+    <div style="margin-top:12px" class="progress-wrap">
+      <div>
+        <div class="small" id="progressText">0 questões estudadas nesta versão</div>
+        <div class="progress"><div id="progressBar" class="bar"></div></div>
+      </div>
+      <button id="backupBtn" class="secondary">💾 BACKUP</button>
+    </div>
+    <h3 style="margin-top:15px">Favoritas e estudadas</h3>
+    <div id="studyList" class="list"></div>
+    <input id="restoreFile" type="file" accept=".json,application/json" hidden />
+    <div class="row">
+      <button id="restoreBtn" class="secondary">♻️ RESTAURAR BACKUP</button>
+    </div>
+  </details>
+
+  <details id="installPanel">
+    <summary>📲 Instalar no tablet</summary>
+    <p class="small">No Chrome, use “Instalar app” ou “Adicionar à tela inicial”. Depois, o Estudo Kardecista poderá abrir pelo próprio ícone.</p>
+    <div class="row"><button id="installHelp" class="primary">MOSTRAR INSTRUÇÕES</button></div>
+  </details>
+
+  <details>
+    <summary>ℹ️ Sobre esta versão</summary>
+    <p class="small"><strong>Versão 1.0 — protótipo funcional.</strong> A estrutura foi feita para crescer sem misturar fontes: (1) O Livro dos Espíritos; (2) relações nas obras de Kardec; (3) literatura espírita complementar; (4) reflexão pessoal.</p>
+  </details>
+</main>
+
+<script>
+(() => {
+  const STORAGE_KEY='estudoKardecistaV1';
+  const data = {
+    "919":{
+      number:"919",
+      themes:["autoconhecimento","conhecimento de si","consciência","consciencia","perfeição moral","perfeicao moral","reforma íntima","reforma intima"],
+      question:"Qual o meio prático mais eficaz que tem o homem de se melhorar nesta vida e de resistir à atração do mal?",
+      answer:"“Conhece-te a ti mesmo.”"
+    }
+  };
+
+  const $=s=>document.querySelector(s);
+  const search=$("#search"), status=$("#status"), result=$("#result"), notFound=$("#notFound");
+  const notes=$("#notes"), favoriteBtn=$("#favoriteBtn"), studiedBtn=$("#studiedBtn");
+  const studyList=$("#studyList"), myStudyPanel=$("#myStudyPanel");
+  let current="919";
+  let deferredInstallPrompt=null;
+
+  function normalize(s){
+    return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  }
+  function loadState(){
+    try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{"items":{}}');}
+    catch(_){return {items:{}};}
+  }
+  function saveState(state){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderStudy();}
+  function itemState(n){
+    const state=loadState();
+    return state.items?.[n]||{favorite:false,studied:false,notes:""};
+  }
+  function updateItem(n, patch){
+    const state=loadState();
+    state.items=state.items||{};
+    state.items[n]={favorite:false,studied:false,notes:"",...(state.items[n]||{}),...patch,updatedAt:new Date().toISOString()};
+    saveState(state);
+  }
+  function updateButtons(){
+    const s=itemState(current);
+    favoriteBtn.textContent=s.favorite?"★ FAVORITADA":"☆ FAVORITAR";
+    studiedBtn.textContent=s.studied?"✅ ESTUDADA":"✅ MARCAR COMO ESTUDADA";
+    notes.value=s.notes||"";
+  }
+  function showQuestion(n){
+    if(!data[n]){result.classList.add("hidden");notFound.classList.remove("hidden");status.textContent="Essa questão ainda não está cadastrada nesta primeira versão.";return;}
+    current=n;
+    notFound.classList.add("hidden");result.classList.remove("hidden");
+    $("#qNumber").textContent="Questão "+n;
+    $("#qQuestion").textContent=data[n].question;
+    $("#qAnswer").textContent=data[n].answer;
+    updateButtons();
+    status.textContent="Questão "+n+" aberta. Estude primeiro a Codificação e, depois, as relações complementares.";
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function doSearch(){
+    const raw=search.value.trim();
+    if(!raw){status.textContent="Digite o número de uma questão ou um tema.";return;}
+    const clean=normalize(raw);
+    if(data[raw]){showQuestion(raw);return;}
+    const found=Object.values(data).find(q=>q.themes.some(t=>normalize(t).includes(clean)||clean.includes(normalize(t))));
+    if(found){showQuestion(found.number);return;}
+    result.classList.add("hidden");notFound.classList.remove("hidden");
+    status.textContent="Ainda não encontrei esse conteúdo na base local da versão 1.0.";
+    notFound.scrollIntoView({behavior:"smooth"});
+  }
+  function renderStudy(){
+    const state=loadState(), items=state.items||{};
+    const selected=Object.entries(items).filter(([_,v])=>v.favorite||v.studied||v.notes);
+    const studied=selected.filter(([_,v])=>v.studied).length;
+    $("#progressText").textContent=studied+" de "+Object.keys(data).length+" questão cadastrada estudada";
+    $("#progressBar").style.width=(Object.keys(data).length?Math.round(studied/Object.keys(data).length*100):0)+"%";
+    studyList.innerHTML="";
+    if(!selected.length){studyList.innerHTML='<div class="empty">Você ainda não salvou estudos nesta versão.</div>';return;}
+    selected.sort((a,b)=>Number(a[0])-Number(b[0])).forEach(([n,v])=>{
+      const div=document.createElement("div");div.className="study-item";
+      div.innerHTML=`<div><strong>Questão ${n} ${v.favorite?"★":""} ${v.studied?"✅":""}</strong>
+        <div class="study-meta">${v.notes?"Reflexão salva · ":""}${v.updatedAt?new Date(v.updatedAt).toLocaleDateString("pt-BR"):""}</div></div>
+        <button class="secondary" data-open="${n}">ABRIR</button>`;
+      studyList.appendChild(div);
+    });
+    studyList.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{showQuestion(b.dataset.open);myStudyPanel.open=false;});
+  }
+  function backup(){
+    const payload={app:"Estudo Kardecista",version:"1.0",createdAt:new Date().toISOString(),state:loadState()};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download="estudo-kardecista-backup-"+new Date().toISOString().slice(0,10)+".json";
+    a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    status.textContent="Backup criado. Guarde o arquivo para recuperar suas anotações se necessário.";
+  }
+  function restore(file){
+    const r=new FileReader();
+    r.onload=()=>{
+      try{
+        const p=JSON.parse(r.result);
+        if(!p.state||!p.state.items) throw new Error();
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state));renderStudy();updateButtons();
+        status.textContent="Backup restaurado com sucesso.";
+      }catch(_){status.textContent="Não foi possível restaurar esse arquivo de backup.";}
+    };
+    r.readAsText(file);
+  }
+
+  $("#searchBtn").onclick=doSearch;
+  search.addEventListener("keydown",e=>{if(e.key==="Enter")doSearch();});
+  $("#show919").onclick=()=>{search.value="919";showQuestion("919");};
+  $("#myStudyBtn").onclick=()=>{myStudyPanel.open=true;myStudyPanel.scrollIntoView({behavior:"smooth"});};
+  favoriteBtn.onclick=()=>{const s=itemState(current);updateItem(current,{favorite:!s.favorite});updateButtons();};
+  studiedBtn.onclick=()=>{const s=itemState(current);updateItem(current,{studied:!s.studied});updateButtons();};
+  $("#saveNotes").onclick=()=>{updateItem(current,{notes:notes.value.trim()});status.textContent="Sua reflexão sobre a questão "+current+" foi salva neste aparelho.";};
+  $("#clearNotes").onclick=()=>{notes.value="";updateItem(current,{notes:""});};
+  $("#backupBtn").onclick=backup;
+  $("#restoreBtn").onclick=()=>$("#restoreFile").click();
+  $("#restoreFile").addEventListener("change",e=>{const f=e.target.files?.[0];if(f)restore(f);e.target.value="";});
+
+  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;});
+  window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;status.textContent="Estudo Kardecista instalado. O ícone já pode aparecer na tela inicial.";});
+  $("#installBtn").onclick=async()=>{
+    if(deferredInstallPrompt){
+      deferredInstallPrompt.prompt();
+      const r=await deferredInstallPrompt.userChoice;
+      status.textContent=r.outcome==="accepted"?"Instalação confirmada.":"Instalação cancelada.";
+      deferredInstallPrompt=null;return;
+    }
+    $("#installPanel").open=true;$("#installPanel").scrollIntoView({behavior:"smooth"});
+  };
+  $("#installHelp").onclick=()=>alert('Para instalar no tablet:\n\n1. Abra o endereço do aplicativo no Chrome.\n2. Toque no menu ⋮.\n3. Escolha “Instalar app” ou “Adicionar à tela inicial”.\n4. Confirme “Estudo Kardecista”.');
+  if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").then(r=>r.update()).catch(()=>{}));
+
+  renderStudy();
+  showQuestion("919");
+})();
+</script>
+</body>
+</html>

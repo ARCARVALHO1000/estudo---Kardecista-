@@ -1,0 +1,23 @@
+{
+  "name": "Estudo Kardecista",
+  "short_name": "Kardec",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#1f4b7a",
+  "description": "Estudo de O Livro dos Espíritos com relações nas obras de Allan Kardec e espaço para literatura complementar.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
