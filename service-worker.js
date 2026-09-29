@@ -1,4 +1,4 @@
-const CACHE="estudo-kardecista-v1-4";
+const CACHE="estudo-kardecista-v1-5";
 const ASSETS=["./manifest.webmanifest","./icon-192.png","./icon-512.png","./apple-touch-icon.png"];
 
 self.addEventListener("install",e=>{
@@ -15,7 +15,6 @@ self.addEventListener("activate",e=>{
 
 self.addEventListener("fetch",e=>{
   if(e.request.method!=="GET") return;
-
   if(e.request.mode==="navigate"){
     e.respondWith(
       fetch(e.request)
@@ -28,7 +27,6 @@ self.addEventListener("fetch",e=>{
     );
     return;
   }
-
   e.respondWith(
     caches.match(e.request).then(cached=>{
       const network=fetch(e.request).then(resp=>{
