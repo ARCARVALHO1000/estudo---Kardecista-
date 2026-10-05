@@ -1,4 +1,4 @@
-const CACHE="estudo-kardecista-v1-10";
+const CACHE="estudo-kardecista-v1-11";
 const ASSETS=["./manifest.webmanifest","./icon-192.png","./icon-512.png","./apple-touch-icon.png"];
 
 self.addEventListener("install",e=>{
