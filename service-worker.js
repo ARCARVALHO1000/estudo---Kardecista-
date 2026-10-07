@@ -1,4 +1,4 @@
-const CACHE="estudo-kardecista-v1-12";
+const CACHE="estudo-kardecista-v1-13";
 const ASSETS=["./manifest.webmanifest","./icon-192.png","./icon-512.png","./apple-touch-icon.png"];
 
 self.addEventListener("install",e=>{
@@ -38,4 +38,3 @@ self.addEventListener("fetch",e=>{
     })
   );
 });
-// republicacao v1.12 para novo deploy do GitHub Pages
