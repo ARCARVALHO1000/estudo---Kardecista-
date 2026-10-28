@@ -503,7 +503,7 @@ $("#backupBtn").onclick=backup;$("#restoreBtn").onclick=()=>$("#restoreFile").cl
 
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e});
 $("#installBtn").onclick=async()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null}else{$("#installPanel").open=true;$("#installPanel").scrollIntoView({behavior:"smooth"})}};
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").then(r=>r.update()).catch(()=>{}));
+if("serviceWorker" in navigator){let swReloaded=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!swReloaded){swReloaded=true;location.reload()}});window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js",{updateViaCache:"none"}).then(r=>r.update()).catch(()=>{}));}
 
 renderStudy();showQuestion("1");
 })();
@@ -512,3 +512,5 @@ renderStudy();showQuestion("1");
 
 
 <!-- v1.26 bloco 236-245 -->
+
+<!-- v1.31 cache refresh r2 -->
